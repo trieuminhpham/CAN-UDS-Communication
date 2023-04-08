@@ -1,0 +1,10 @@
+../Core/Src/dcm.c:44:6:CAN_TP2DCM	24	static
+../Core/Src/dcm.c:200:6:CAN_DCM2TP	4	static
+../Core/Src/dcm.c:251:10:Read_CanID_Tester	16	static
+../Core/Src/dcm.c:269:10:Read_CanID_ECU	16	static
+../Core/Src/dcm.c:286:10:Write_CanID_Tester	16	static
+../Core/Src/dcm.c:326:10:Write_CanID_ECU	16	static
+../Core/Src/dcm.c:366:10:Read_22_2E_Data	16	static
+../Core/Src/dcm.c:373:10:Write_22_2E_Data	16	static
+../Core/Src/dcm.c:397:10:Gen_Ramdom_Seed	16	static
+../Core/Src/dcm.c:429:10:Compare_Key	32	static
