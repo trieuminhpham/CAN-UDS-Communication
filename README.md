@@ -44,9 +44,5 @@ The firmware successfully handles the following UDS requests:
 5. Click the **Build** hammer icon to compile the project.
 6. Connect your ST-Link to the STM32 board and click **Debug/Run** to flash the firmware.
 
-## 📸 Demo & Testing
-
-*(Insert your terminal or CAN tool screenshots here showing successful TX/RX UDS messages)*
-
 ---
 *Note: The source code in this repository was independently developed based on training requirements.*
