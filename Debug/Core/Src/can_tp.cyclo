@@ -1,6 +1,0 @@
-../Core/Src/can_tp.c:16:6:TP_Handle_SingleFrame	2
-../Core/Src/can_tp.c:29:6:TP_Handle_FirstFrame	8
-../Core/Src/can_tp.c:65:6:TP_Handle_ConsecutiveFrame	7
-../Core/Src/can_tp.c:96:6:TP_Handle_FlowControlFrame	1
-../Core/Src/can_tp.c:109:6:CAN_TP_RxIndication	3
-../Core/Src/can_tp.c:122:6:CAN_TP_Transmit	14
