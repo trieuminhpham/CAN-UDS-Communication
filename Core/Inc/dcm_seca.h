@@ -7,23 +7,6 @@
 
 #include "dcm.h"
 
-typedef struct
-{
-	uint16_t Subfunc;
-	uint8_t  FuncIndx;
-} Dcm_Seca_Subfunc_table;
-
-typedef struct
-{
-	Dcm_Seca_Subfunc_table const *SecaSubFuncTable;
-	uint16_t numSub;
-	uint8_t InvalidLength;
-	uint8_t SubFuncNotSupport;
-	uint8_t SequenceError;
-	uint8_t InvalidKeys;
-	uint8_t GeneralReject;
-} Dcm_Seca_Conf;
-
-extern void dcm_seca(Dcm_Msg_Info* MsgInfor);
+void DCM_Service_27_Practice(uint8_t* pPayload, uint16_t length);
 
 #endif

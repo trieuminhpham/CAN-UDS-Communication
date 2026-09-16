@@ -1,6 +1,6 @@
 ################################################################################
 # Automatically-generated file. Do not edit!
-# Toolchain: GNU Tools for STM32 (10.3-2021.10)
+# Toolchain: GNU Tools for STM32 (14.3.rel1)
 ################################################################################
 
 -include ../makefile.init
@@ -34,37 +34,37 @@ $(wildcard ../makefile.init) \
 $(wildcard ../makefile.targets) \
 
 
-BUILD_ARTIFACT_NAME := BEA_CAN2CAN_DEMO_TEN1HC
+BUILD_ARTIFACT_NAME := BEA_CAN2CAN_DEMO_TEN1HC_HUST
 BUILD_ARTIFACT_EXTENSION := elf
 BUILD_ARTIFACT_PREFIX :=
 BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ARTIFACT_EXTENSION),.$(BUILD_ARTIFACT_EXTENSION),)
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
-BEA_CAN2CAN_DEMO_TEN1HC.elf \
+BEA_CAN2CAN_DEMO_TEN1HC_HUST.elf \
 
 MAP_FILES += \
-BEA_CAN2CAN_DEMO_TEN1HC.map \
+BEA_CAN2CAN_DEMO_TEN1HC_HUST.map \
 
 SIZE_OUTPUT += \
 default.size.stdout \
 
 OBJDUMP_LIST += \
-BEA_CAN2CAN_DEMO_TEN1HC.list \
+BEA_CAN2CAN_DEMO_TEN1HC_HUST.list \
 
 OBJCOPY_HEX += \
-BEA_CAN2CAN_DEMO_TEN1HC.hex \
+BEA_CAN2CAN_DEMO_TEN1HC_HUST.hex \
 
 
 # All Target
 all: main-build
 
 # Main-build Target
-main-build: BEA_CAN2CAN_DEMO_TEN1HC.elf secondary-outputs
+main-build: BEA_CAN2CAN_DEMO_TEN1HC_HUST.elf secondary-outputs
 
 # Tool invocations
-BEA_CAN2CAN_DEMO_TEN1HC.elf BEA_CAN2CAN_DEMO_TEN1HC.map: $(OBJS) $(USER_OBJS) C:\Users\ten1hc\Downloads\workspace\BEA\_V2\BEA_CAN2CAN_DEMO_TEN1HC\STM32F405RGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "BEA_CAN2CAN_DEMO_TEN1HC.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\ten1hc\Downloads\workspace\BEA\_V2\BEA_CAN2CAN_DEMO_TEN1HC\STM32F405RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="BEA_CAN2CAN_DEMO_TEN1HC.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+BEA_CAN2CAN_DEMO_TEN1HC_HUST.elf BEA_CAN2CAN_DEMO_TEN1HC_HUST.map: $(OBJS) $(USER_OBJS) D:\Project\BOSCH_INTERN\Final_Project\Source_Code\STM32F405RGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "BEA_CAN2CAN_DEMO_TEN1HC_HUST.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"D:\Project\BOSCH_INTERN\Final_Project\Source_Code\STM32F405RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="BEA_CAN2CAN_DEMO_TEN1HC_HUST.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -73,19 +73,19 @@ default.size.stdout: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-BEA_CAN2CAN_DEMO_TEN1HC.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "BEA_CAN2CAN_DEMO_TEN1HC.list"
+BEA_CAN2CAN_DEMO_TEN1HC_HUST.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "BEA_CAN2CAN_DEMO_TEN1HC_HUST.list"
 	@echo 'Finished building: $@'
 	@echo ' '
 
-BEA_CAN2CAN_DEMO_TEN1HC.hex: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objcopy  -O ihex $(EXECUTABLES) "BEA_CAN2CAN_DEMO_TEN1HC.hex"
+BEA_CAN2CAN_DEMO_TEN1HC_HUST.hex: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objcopy  -O ihex $(EXECUTABLES) "BEA_CAN2CAN_DEMO_TEN1HC_HUST.hex"
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) BEA_CAN2CAN_DEMO_TEN1HC.elf BEA_CAN2CAN_DEMO_TEN1HC.hex BEA_CAN2CAN_DEMO_TEN1HC.list BEA_CAN2CAN_DEMO_TEN1HC.map default.size.stdout
+	-$(RM) BEA_CAN2CAN_DEMO_TEN1HC_HUST.elf BEA_CAN2CAN_DEMO_TEN1HC_HUST.hex BEA_CAN2CAN_DEMO_TEN1HC_HUST.list BEA_CAN2CAN_DEMO_TEN1HC_HUST.map default.size.stdout
 	-@echo ' '
 
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_HEX)

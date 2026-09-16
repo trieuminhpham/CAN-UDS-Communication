@@ -68,6 +68,21 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 
 /* USER CODE BEGIN Private defines */
+#define COM_TX_ID         0x012
+#define COm_RX_ID         0x0A2
+#define COM_TX_CYCLE_MS   50
+
+/*Bien nhan du lieu tu 0x0A2*/
+extern volatile uint8_t com_rx_data0;
+extern volatile uint8_t com_rx_data1;
+extern volatile uint8_t com_data_ready;
+
+/*Ham moi*/
+uint8_t Caculate_CRC8_SAE_J1850(uint8_t *data, uint8_t length);
+
+//*I2C*/
+//extern I2C_HandleTypeDef hi2c1;
+//void MX_I2C1_Init(void);
 
 extern uint8_t uart3_receive;
 extern UART_HandleTypeDef huart3;
@@ -82,8 +97,10 @@ extern CAN_RxHeaderTypeDef CAN2_pHeaderRx;
 extern CAN_FilterTypeDef CAN2_sFilterConfig;
 extern uint32_t CAN1_pTxMailbox;
 extern uint32_t CAN2_pTxMailbox;
-
-extern uint16_t NumBytesReq;
+extern uint16_t g_TemperatureSensorRawValue_u16[1];
+extern volatile uint16_t NumBytesReq;
+extern volatile uint8_t g_Uds_Cmd_Ready;
+extern volatile uint32_t g_Last_Uart_Rx_Tick;
 extern uint8_t REQ_BUFFER[4096];
 extern uint8_t  REQ_1BYTE_DATA;
 extern uint8_t CAN1_DATA_TX[8];

@@ -4,134 +4,89 @@
 /*********************************************************/
 
 #include "dcm_wdbi.h"
+#include "dcm.h"
+#include "can_tp.h"
 
+extern CAN_HandleTypeDef hcan2;
+extern uint8_t g_Security_Unlocked;
 
-Dcm_Wdbi_DID_table const Dcm_Wdbi_did_Table1[]=
+// Bien luu CAN ID moi (cho Ignition Cycle moi ap dung)
+uint16_t g_Pending_New_CAN_ID = 0x012; // Mac dinh la can ID goc
+uint8_t g_Pending_ID_Ready = 0;        // Co bao gia tri moi cho ap dung
+
+void DCM_Service_2E_Practice(uint8_t* pPayload, uint16_t length)
 {
-	{
-			0x0123,
-			WRITE_CANID_TESTER,
-			0x07
-	},
-	{
-			0x0321,
-			WRITE_CANID_ECU,
-			0x07
-	},
-	{
-			0xF001,
-			WRITE_22and2E_DATA,
-			0x08,
-	},
-};
+    // ======================================
+    // KIEM TRA 1: Bao mat da mo khoa chua
+    // ======================================
+    if (g_Security_Unlocked == 0) {
+        // NRC 0x33: Security Access Denied
+        uint8_t nrc_denied[3] = {0x7F, 0x2E, 0x33};
+        CAN_TP_Transmit(nrc_denied, 3, 0x7A2, &hcan2);
+        return;
+    }
 
-Dcm_Wdbi_Conf const Dcm_Wdbi_Conf1=
-{
-	&Dcm_Wdbi_did_Table1[0],
-	sizeof(Dcm_Wdbi_did_Table1)/sizeof(Dcm_Wdbi_did_Table1[0]),
-	NRC13_INVALID_LEN,
-	NRC31_DID_NOTSUPPORT,
-	NRC10_GENERAL_REJECT
-};
+    if (length < 3) {
+        uint8_t nrc_length[3] = {0x7F, 0x2E, 0x13};
+        CAN_TP_Transmit(nrc_length, 3, 0x7A2, &hcan2);
+        return;
+    }
 
-void dcm_wdbi(Dcm_Msg_Info* MsgInfor)
-{
-	uint8_t  NegRes;
-	uint16_t Tem_DID;
-	uint8_t  LoopIdx;
-	uint8_t  FuncIdx;
-	uint16_t Dcm_Func_retval;
+    uint16_t did = (pPayload[1] << 8) | pPayload[2];
 
-	/*Local variable initialization*/
-	Tem_DID = 0x0000;
-	NegRes = 0x00;
-	LoopIdx = 0x00;
-	Dcm_Func_retval = 0x0000;
+    // =============================================
+    // PRACTICE 1: Ghi New CAN ID (DID = 0x0123)
+    // Bang 19: SID (1) + DID (2) + CAN ID (2) = 5 byte
+    // =============================================
+    if (did == 0x0123) 
+    {
+        if (length != 5) {
+            uint8_t nrc_length[3] = {0x7F, 0x2E, 0x13};
+            CAN_TP_Transmit(nrc_length, 3, 0x7A2, &hcan2);
+            return;
+        }
 
-	if(MsgInfor->numByetReq < 4)
-	{
-		/*check if minimum request length is correct*/
-		NegRes = Dcm_Wdbi_Conf1.InvalidLength;
-	}
-	else
-	{
-		/*Get DID value from request buffer*/
-		Tem_DID  = (uint16_t)MsgInfor->dataBuff[2];
-		Tem_DID  = Tem_DID<<8;
-		Tem_DID |=(uint16_t)MsgInfor->dataBuff[3];
+        // Kiểm tra Range New CAN ID theo Bảng 19 Spec Bosch (Byte 4 <= 0x7F)
+        if (pPayload[3] > 0x7F) {
+            uint8_t nrc_range[3] = {0x7F, 0x2E, 0x31};
+            CAN_TP_Transmit(nrc_range, 3, 0x7A2, &hcan2);
+            return;
+        }
 
-		/*Search DIDs*/
-		for(LoopIdx = 0; LoopIdx < Dcm_Wdbi_Conf1.numDid ; LoopIdx++)
-		{
-			if(Dcm_Wdbi_Conf1.WdbiDidTable[LoopIdx].Did == Tem_DID)
-			{
-				break;
-			}
-		}
-		if(LoopIdx >= Dcm_Wdbi_Conf1.numDid)
-		{
-			NegRes = Dcm_Wdbi_Conf1.DidNotSupport;
-		}
-		else
-		{
-			FuncIdx = Dcm_Wdbi_Conf1.WdbiDidTable[LoopIdx].FuncIndx;
-		}
+        uint16_t new_can_id = ((uint16_t)pPayload[3] << 8) | pPayload[4];
+        g_Pending_New_CAN_ID = new_can_id;
+        g_Pending_ID_Ready = 1; // Danh dau cho Ignition ap dung
 
-		/*DIDs minimum length check*/
-		if(MsgInfor->numByetReq < Dcm_Wdbi_Conf1.WdbiDidTable[LoopIdx].DinMinlength)
-		{
-			NegRes = Dcm_Wdbi_Conf1.InvalidLength;
-		}
-	}
+        // Positive Response: 0x6E 0x01 0x23
+        uint8_t resp_success[3] = {0x6E, 0x01, 0x23};
+        CAN_TP_Transmit(resp_success, 3, 0x7A2, &hcan2);
+    }
+    // =============================================
+    // PRACTICE 2 (TEST MULTI-FRAME): Ghi VIN Number (DID = 0xF190)
+    // Tổng chiều dài 20 byte: SID (1) + DID (2) + 17 bytes Data (Nhận qua 3 frame CAN)
+    // =============================================
+    else if (did == 0xF190)
+    {
+        if (length != 20) {
+            uint8_t nrc_length[3] = {0x7F, 0x2E, 0x13};
+            CAN_TP_Transmit(nrc_length, 3, 0x7A2, &hcan2);
+            return;
+        }
 
-	if(NegRes == 0x00)
-	{
-		/*Execute service DID and send Positive response*/
-		Dcm_Func_retval = (*dcm_funcs_fp[FuncIdx])();
+        for (int i = 0; i < 17; i++) {
+            g_VIN_Buffer[i] = pPayload[3 + i];
+        }
 
-		switch (Dcm_Func_retval)
-		{
-			case POS_RES:
-			{
-				/*Send Positive response*/
-				MsgInfor->respType = DCM_POS;
-				break;
-			}
-			case NRC33_SECURITY_ACCESS_DENIED:
-			{
-				/*for further practice*/
-				NegRes = NRC33_SECURITY_ACCESS_DENIED;
-				break;
-			}
-			case NRC31_DID_NOTSUPPORT:
-			{
-				/*for further practice*/
-				NegRes = NRC31_DID_NOTSUPPORT;
-				break;
-			}
-			case NRC22_CONDITON_NOTCORRECT:
-			{
-				/*for further practice*/
-				NegRes = NRC22_CONDITON_NOTCORRECT;
-				break;
-			}
-			default:
-			{
-				/*for further practice*/
-				NegRes = Dcm_Wdbi_Conf1.GeneralReject;
-				break;
-			}
-		}
-
-	}
-	if(NegRes != 0x00)
-	{
-		/*Send negative response*/
-		MsgInfor->dataBuff[3] = NegRes;
-		MsgInfor->respType = DCM_NEG;
-	}
-
-	DCM_NEW_REQ = 1;
-	return;
+        // Positive Response: 0x6E 0xF1 0x90 (Single Frame 3 byte)
+        uint8_t resp_success[3] = {0x6E, 0xF1, 0x90};
+        CAN_TP_Transmit(resp_success, 3, 0x7A2, &hcan2);
+    }
+    // =============================================
+    // Negative Response: DID khong ho tro (NRC 0x31)
+    // =============================================
+    else {
+        uint8_t nrc_did[3] = {0x7F, 0x2E, 0x31};
+        CAN_TP_Transmit(nrc_did, 3, 0x7A2, &hcan2);
+    }
 }
 

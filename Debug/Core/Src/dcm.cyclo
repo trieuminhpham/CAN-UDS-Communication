@@ -1,10 +1,1 @@
-dcm.c:44:6:CAN_TP2DCM	26
-dcm.c:200:6:CAN_DCM2TP	10
-dcm.c:251:10:Read_CanID_Tester	1
-dcm.c:269:10:Read_CanID_ECU	1
-dcm.c:286:10:Write_CanID_Tester	4
-dcm.c:326:10:Write_CanID_ECU	4
-dcm.c:366:10:Read_22_2E_Data	1
-dcm.c:373:10:Write_22_2E_Data	3
-dcm.c:397:10:Gen_Ramdom_Seed	1
-dcm.c:429:10:Compare_Key	4
+../Core/Src/dcm.c:25:6:DCM_Process_Request	5

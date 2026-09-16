@@ -7,22 +7,6 @@
 
 #include "dcm.h"
 
-typedef struct
-{
-	uint16_t Did;
-	uint8_t  FuncIndx;
-	uint8_t  DinMinlength;
-} Dcm_Wdbi_DID_table;
-
-typedef struct
-{
-	Dcm_Wdbi_DID_table const *WdbiDidTable;
-	uint16_t numDid;
-	uint8_t InvalidLength;
-	uint8_t DidNotSupport;
-	uint8_t GeneralReject;
-} Dcm_Wdbi_Conf;
-
-extern void dcm_wdbi(Dcm_Msg_Info* MsgInfor);
+void DCM_Service_2E_Practice(uint8_t* pPayload, uint16_t length);
 
 #endif
