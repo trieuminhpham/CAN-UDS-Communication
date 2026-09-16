@@ -44,5 +44,10 @@ The firmware successfully handles the following UDS requests:
 5. Click the **Build** hammer icon to compile the project.
 6. Connect your ST-Link to the STM32 board and click **Debug/Run** to flash the firmware.
 
+## 📸 Demo & Testing
+
+<img width="1204" height="1553" alt="image" src="https://github.com/user-attachments/assets/8a076419-1a87-4221-889e-004c1f61f1d7" />
+<img width="980" height="1357" alt="image" src="https://github.com/user-attachments/assets/0262c447-1927-4fa0-bb7c-ddc3842ac2b6" />
+
 ---
 *Note: The source code in this repository was independently developed based on training requirements.*
