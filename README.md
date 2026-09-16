@@ -32,7 +32,6 @@ The firmware successfully handles the following UDS requests:
 * `Core/Inc/` - Header files (.h) for UDS handlers and CAN configs
 * `Core/Src/` - Source files (.c) for main logic and protocol implementation
 * `Drivers/` - STM32 HAL Drivers & CMSIS
-* `docs/` - Detailed project instructions and logs
 * `README.md` - Project overview
 
 ## 🚀 How to Build and Run
